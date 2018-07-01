@@ -32,6 +32,18 @@ export default class Board extends Component {
     return new_array
   }
 
+  makeComponentRows () {
+    return this.state.board.map((row, row_idx) => <div className={'row'}>{this.makeCellComponents(row)}</div>)
+  }
+
+  makeCellComponents (row) {
+    return row.map((cell_val, cell_idx) => <Cell filled={cell_val}/>)
+  }
+
+  makeBoardComponentsMatrix () {
+    return this.makeComponentRows()
+  }
+
   makeBoardMatrix = () => this.makeRows()
 
   componentDidMount() {
@@ -153,7 +165,7 @@ export default class Board extends Component {
     console.log(this.state.board)
     return(
       <div style={{'float': 'left'}}>
-        {this.state.board}
+        {this.makeBoardComponentsMatrix()}
       </div>
     )
   }
