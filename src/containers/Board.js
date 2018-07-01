@@ -4,7 +4,8 @@ import Cell from '../components/Cell'
 export default class Board extends Component {
 
   state = {
-    board: [[]]
+    board: [[]],
+    intervalSpeed: 1000
   }
 
   makeCells() {
@@ -152,7 +153,7 @@ export default class Board extends Component {
     this.setState({board: new_board})
   }
 
-  startInterval = () => this.setState({interval: setInterval(() => this.checkBoard(), 1000)})
+  startInterval = () => this.setState({interval: setInterval(() => this.checkBoard(), this.state.intervalSpeed)})
 
   stopInterval = () => {
     clearInterval(this.state.interval)
@@ -170,8 +171,14 @@ export default class Board extends Component {
         <button onClick={this.startInterval}>{"Start"}</button>
         <button onClick={this.stopInterval}>{"Stop"}</button>
         <button onClick={this.resetGame}>{"Reset"}</button>
+        <input onChange={this.setIntervalSpeed} value={this.state.intervalSpeed}></input>
       </div>
     )
+  }
+
+  setIntervalSpeed = (event) => {
+    this.stopInterval()
+    this.setState({intervalSpeed: event.target.value}, () => this.startInterval())
   }
 
   render() {
