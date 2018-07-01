@@ -5,7 +5,8 @@ export default class Board extends Component {
 
   state = {
     board: [[]],
-    intervalSpeed: 1000
+    intervalSpeed: 1000,
+    interval: undefined
   }
 
   makeCells() {
@@ -153,7 +154,14 @@ export default class Board extends Component {
     this.setState({board: new_board})
   }
 
-  startInterval = () => this.setState({interval: setInterval(() => this.checkBoard(), this.state.intervalSpeed)})
+  startInterval = () => {
+    if (this.state.interval) {
+      this.stopInterval()
+      this.setState({interval: setInterval(() => this.checkBoard(), this.state.intervalSpeed)})
+    } else {
+      this.setState({interval: setInterval(() => this.checkBoard(), this.state.intervalSpeed)})
+    }
+  }
 
   stopInterval = () => {
     clearInterval(this.state.interval)
