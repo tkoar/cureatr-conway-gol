@@ -47,16 +47,7 @@ export default class Board extends Component {
   makeBoardMatrix = () => this.makeRows()
 
   componentDidMount() {
-    this.setState({board: this.makeBoardMatrix()}, () => this.startInterval())
-  }
-
-  startInterval = () => {
-    this.setState({interval: setInterval(() => this.checkBoard(), 1000)})
-  }
-
-  stopInterval = () => {
-    clearInterval(this.state.interval)
-    this.setState({interval: null})
+    this.setState({board: this.makeBoardMatrix()})
   }
 
   checkTop(x, y) {
@@ -161,11 +152,35 @@ export default class Board extends Component {
     this.setState({board: new_board})
   }
 
+  startInterval = () => this.setState({interval: setInterval(() => this.checkBoard(), 1000)})
+
+  stopInterval = () => {
+    clearInterval(this.state.interval)
+    this.setState({interval: null})
+  }
+
+  resetGame = () => {
+    clearInterval(this.state.interval)
+    this.setState({board: this.makeBoardMatrix(), interval: null})
+  }
+
+  makeStartStopResetButtons = () => {
+    return (
+      <div>
+        <button onClick={this.startInterval}>{"Start"}</button>
+        <button onClick={this.stopInterval}>{"Stop"}</button>
+        <button onClick={this.resetGame}>{"Reset"}</button>
+      </div>
+    )
+  }
+
   render() {
-    console.log(this.state.board)
     return(
-      <div style={{'float': 'left'}}>
-        {this.makeBoardComponentsMatrix()}
+      <div>
+        {this.makeStartStopResetButtons()}
+        <div style={{'float': 'left'}}>
+          {this.makeBoardComponentsMatrix()}
+        </div>
       </div>
     )
   }
