@@ -145,7 +145,7 @@ export default class Board extends Component {
         let count = this.checkEdges(i, j, 0)
         if (new_board[i][j]) {
           new_board[i][j] = this.populatedOrEmpty(count)
-        } else if (count == 3 || count == 6) {
+        } else if (count === 3 || count === 6) {
           new_board[i][j] = true
         }
       }
@@ -171,14 +171,22 @@ export default class Board extends Component {
         <button onClick={this.startInterval}>{"Start"}</button>
         <button onClick={this.stopInterval}>{"Stop"}</button>
         <button onClick={this.resetGame}>{"Reset"}</button>
-        <input onChange={this.setIntervalSpeed} value={this.state.intervalSpeed}></input>
+        <input style={{color: this.state.intervalSpeed < 50 ? 'red' : 'black'}} onChange={this.setIntervalSpeed} value={this.state.intervalSpeed}></input>
+        <button onClick={this.updateInterval}>{"Update Interval"}</button>
       </div>
     )
   }
 
   setIntervalSpeed = (event) => {
+    event.preventDefault()
+    this.setState({intervalSpeed: event.target.value})
+  }
+
+  updateInterval = (event) => {
+    event.preventDefault()
     this.stopInterval()
-    this.setState({intervalSpeed: event.target.value}, () => this.startInterval())
+    let intervalSpeed = this.state.intervalSpeed > 50 ? this.state.intervalSpeed : 50
+    this.setState({intervalSpeed: intervalSpeed}, () => this.startInterval())
   }
 
   render() {
