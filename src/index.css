@@ -3,3 +3,14 @@ body {
   padding: 0;
   font-family: sans-serif;
 }
+
+.cell {
+  height: 12px;
+  width: 12px;
+  float: left;
+  border: 1px solid grey;
+}
+
+.row {
+  width: 100%;
+}
